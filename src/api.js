@@ -1,10 +1,14 @@
 const express = require('express');
 
+const ValidateToken = require('./controllers/authController')
+
 // ...
 
 const app = express();
 
 app.use(express.json());
+
+app.post('/login', ValidateToken.ValidateToken);
 
 // ...
 

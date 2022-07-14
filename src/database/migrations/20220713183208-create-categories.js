@@ -9,8 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      categoryId: {
+        type: Sequelize.INTEGER,
+      },
       name: {
-        allowNull: false,
         type: Sequelize.STRING
       }
     })

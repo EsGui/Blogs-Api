@@ -7,9 +7,9 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
-      dislayName: {
+      displayName: {
         allowNull: false,
         type: Sequelize.STRING
       },
@@ -24,6 +24,12 @@ module.exports = {
       image: {
         allowNull: false,
         type: Sequelize.STRING
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       }
     })
   },
