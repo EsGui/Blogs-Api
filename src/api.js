@@ -1,6 +1,6 @@
 const express = require('express');
 
-const ValidateToken = require('./controllers/authController')
+const ValidateToken = require('./controllers/authController');
 
 // ...
 

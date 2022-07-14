@@ -16,7 +16,7 @@ const jwtService = {
       error.name = 'UnauthorizedError';
       throw error;
     }
-  }
-};
+  },
+}
 
 module.exports = jwtService;
