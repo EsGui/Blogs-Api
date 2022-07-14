@@ -17,6 +17,6 @@ const jwtService = {
       throw error;
     }
   }
-}
+};
 
 module.exports = jwtService;
