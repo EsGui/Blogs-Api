@@ -1,5 +1,5 @@
 const db = require('../database/models');
-const generateToken = require('../controllers/jwtController');
+const generateToken = require('./jwtController');
 
 const ValidateToken = async (req, res) => {
   const { email, password } = req.body;
