@@ -21,8 +21,6 @@ const ValidateToken = async (req, res) => {
 const validRegistration = async (req, res, next) => {
   const { displayName, email, password } = req.body;
 
-  const pegaAll = await User.findAll();
-
   if (displayName && displayName.length < 8) {
     return res.status(400)
       .json({ message: '"displayName" length must be at least 8 characters long' });
@@ -31,7 +29,16 @@ const validRegistration = async (req, res, next) => {
   } if (password.length < 6) {
     return res.status(400)
       .json({ message: '"password" length must be at least 6 characters long' });
-  } 
+  }
+
+  next();
+};
+
+const validRegistrationEmail = async (req, res, next) => {
+  const { email } = req.body;
+
+  const pegaAll = await User.findAll();
+
   pegaAll.forEach((obj) => {
     if (obj.email === email) {
       res.status(409).json({ message: 'User already registered' });
@@ -49,10 +56,11 @@ const validRegistrationFinally = async (req, res) => {
   const create = generateToken.createToken({ email, password });
 
   return res.status(201).json({ token: create });
-}
+};
 
 module.exports = {
   ValidateToken,
   validRegistration,
   validRegistrationFinally,
+  validRegistrationEmail,
 };
