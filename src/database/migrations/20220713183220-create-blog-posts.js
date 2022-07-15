@@ -26,11 +26,22 @@ module.exports = {
       },
       updated: {
         type: Sequelize.DATE
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        field: 'userId',
+        references: {
+          model: 'Users',
+          key: 'id',
+        }
       }
     })
   },
 
   down: async (queryInterface, Sequelize) => {
-    
+    return queryInterface.dropTable('BlogPosts');
   }
 };

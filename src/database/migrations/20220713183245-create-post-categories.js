@@ -5,8 +5,6 @@ module.exports = {
     return queryInterface.createTable('PostCategories', {
       postId: {
         allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
         type: Sequelize.INTEGER
       },
       categoryId: {
