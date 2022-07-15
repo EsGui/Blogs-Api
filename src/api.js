@@ -9,6 +9,8 @@ const app = express();
 app.use(express.json());
 
 app.post('/login', ValidateToken.ValidateToken);
+app.post('/user', ValidateToken.validRegistration, 
+  ValidateToken.validRegistrationFinally);
 
 // ...
 
