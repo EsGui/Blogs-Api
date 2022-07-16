@@ -119,6 +119,14 @@ const registrationCategories = async (req, res) => {
   return res.status(201).json({ id: idCategory.length, name });
 };
 
+const listCategories = async (req, res) => {
+  const listC = await db.Category.findAll({ attributes: { exclude: ['createdAt', 'updatedAt'] } });
+
+  console.log('Aqui ========>>>>', listC);
+
+  return res.status(200).json({ message: listC });
+};
+
 module.exports = {
   ValidateToken,
   validRegistration,
@@ -127,6 +135,7 @@ module.exports = {
   listOne,
   validateTokenRegistration,
   listOneFinally,
+  listCategories,
   registrationCategories,
   listAll,
 };

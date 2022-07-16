@@ -21,6 +21,8 @@ app.get('/user/:id', ValidateToken.validateTokenRegistration, ValidateToken.list
 app.post('/categories', ValidateToken.validateTokenRegistration, 
   ValidateToken.registrationCategories);
 
+app.get('/categories', ValidateToken.validateTokenRegistration, ValidateToken.listCategories);
+
 app.use((err, _req, res, _next) => {
   const { name, message } = err;
   switch (name) {
