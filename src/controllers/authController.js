@@ -77,6 +77,14 @@ const listAll = async (_req, res) => {
   return res.status(200).json(allList);
 };
 
+const listOne = async (req, res) => {
+  const { id } = req.params;
+
+  const allList = await db.User.findOne({ where: Number(id) });
+
+  res.status(200).json(allList);
+};
+
 module.exports = {
   ValidateToken,
   validRegistration,
@@ -84,4 +92,5 @@ module.exports = {
   validRegistrationEmail,
   validateTokenRegistration,
   listAll,
+  listOne,
 };
