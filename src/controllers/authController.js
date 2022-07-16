@@ -40,11 +40,17 @@ const validRegistrationEmail = async (req, res, next) => {
 
   const pegaAll = await User.findAll();
 
-  pegaAll.forEach((obj) => {
+  /* pegaAll.forEach((obj) => {
     if (obj.email === email) {
       res.status(409).json({ message: 'User already registered' });
     }
-  });
+  }); */
+
+  for (let index = 0; index < pegaAll.length; index += 1) {
+    if (pegaAll[index].email === email) {
+      return res.status(409).json({ message: 'User already registered' });
+    }
+  }
 
   next();
 };
