@@ -1,6 +1,8 @@
 const express = require('express');
 
 const ValidateToken = require('./controllers/authController');
+const testeController = require('./controllers/testeController');
+
 // ...
 
 const app = express();
@@ -12,9 +14,9 @@ app.post('/user', ValidateToken.validRegistration,
   ValidateToken.validRegistrationEmail,
   ValidateToken.validRegistrationFinally);
 
-app.get('/user', ValidateToken.validateTokenRegistration, ValidateToken.listAll);
+app.get('/user', testeController.validateTokenRegistration, ValidateToken.listAll);
 
-app.get('/user/:id', ValidateToken.validateTokenRegistration, ValidateToken.listOne, 
+app.get('/user/:id', testeController.validateTokenRegistration, ValidateToken.listOne, 
   ValidateToken.listOneFinally);
 
 app.use((err, _req, res, _next) => {
