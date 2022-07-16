@@ -1,5 +1,5 @@
-const Categorie = (Sequilize, DataTypes) => {
-  const Categorie = Sequilize.define('Categorie', {
+const Category = (Sequilize, DataTypes) => {
+  const Category = Sequilize.define('Category', {
     id: {
       type: DataTypes.INTEGER, 
       primaryKey: true, 
@@ -9,7 +9,7 @@ const Categorie = (Sequilize, DataTypes) => {
     name: DataTypes.STRING
   });
 
-  return Categorie;
+  return Category;
 };
 
-module.exports = Categorie
+module.exports = Category
