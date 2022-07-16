@@ -1,7 +1,7 @@
 const db = require('../database/models');
 const generateToken = require('./jwtController');
 const { User } = require('../database/models');
-/* const authService = require('../services/authServices'); */
+const authService = require('../services/authServices');
 
 const ValidateToken = async (req, res) => {
   const { email, password } = req.body;
@@ -59,13 +59,13 @@ const validRegistrationFinally = async (req, res) => {
   return res.status(201).json({ token: create });
 };
 
-/* const validateTokenRegistration = (req, _res, next) => {
+const validateTokenRegistration = (req, _res, next) => {
   const { authorization } = req.headers;
 
   authService.authToken(authorization);
 
   next();
-}; */
+};
 
 const listAll = async (_req, res) => {
   const allList = await db.User.findAll({ attributes: { exclude: ['password'] } });
@@ -104,7 +104,8 @@ module.exports = {
   validRegistration,
   validRegistrationFinally,
   validRegistrationEmail,
-  listAll,
   listOne,
+  validateTokenRegistration,
   listOneFinally,
+  listAll,
 };
