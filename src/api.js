@@ -18,7 +18,8 @@ app.get('/user', ValidateToken.validateTokenRegistration, ValidateToken.listAll)
 app.get('/user/:id', ValidateToken.validateTokenRegistration, ValidateToken.listOne, 
   ValidateToken.listOneFinally);
 
-app.post('/categories', ValidateToken.validateTokenRegistration, ValidateToken.registrationCategories);
+app.post('/categories', ValidateToken.validateTokenRegistration, 
+  ValidateToken.registrationCategories);
 
 app.use((err, _req, res, _next) => {
   const { name, message } = err;
