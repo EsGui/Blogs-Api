@@ -1,6 +1,7 @@
 const db = require('../database/models');
 const generateToken = require('./jwtController');
 const { User } = require('../database/models');
+const vToken = require('./jwtController');
 
 const ValidateToken = async (req, res) => {
   const { email, password } = req.body;
@@ -58,9 +59,29 @@ const validRegistrationFinally = async (req, res) => {
   return res.status(201).json({ token: create });
 };
 
+const validateTokenRegistration = (req, _res, next) => {
+  const { authorization } = req.headers;
+
+  vToken.validateToken(authorization);
+
+/*   const allList = db.User.findAll({ attributes: { exclude: ['password'] } });
+
+  return res.status(200).json(allList); */
+
+  next();
+};
+
+const listAll = async (_req, res) => {
+  const allList = await db.User.findAll({ attributes: { exclude: ['password'] } });
+
+  return res.status(200).json(allList);
+};
+
 module.exports = {
   ValidateToken,
   validRegistration,
   validRegistrationFinally,
   validRegistrationEmail,
+  validateTokenRegistration,
+  listAll,
 };

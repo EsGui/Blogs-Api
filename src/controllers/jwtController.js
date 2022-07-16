@@ -12,9 +12,15 @@ const jwtService = {
       const data = jwt.verify(token, process.env.JWT_SECRET);
       return data;
     } catch (e) {
-      const error = new Error('Faça login');
-      error.name = 'UnauthorizedError';
-      throw error;
+      if (JSON.stringify(e).includes('provided')) {
+        const error = new Error('Token not found');
+        error.name = 'UnauthorizedError';
+        throw error;
+      } if (JSON.stringify(e).includes('malformed')) {
+        const error = new Error('Expired or invalid token');
+        error.name = 'UnauthorizedError';
+        throw error;
+      }
     }
   },
 };
