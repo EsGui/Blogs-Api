@@ -11,6 +11,7 @@ app.post('/login', ValidateToken.ValidateToken);
 app.post('/user', ValidateToken.validRegistration,
   ValidateToken.validRegistrationEmail,
   ValidateToken.validRegistrationFinally);
+
 app.get('/user', ValidateToken.validateTokenRegistration, ValidateToken.listAll);
 
 app.get('/user/:id', ValidateToken.validateTokenRegistration, ValidateToken.listOne, 

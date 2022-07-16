@@ -77,7 +77,7 @@ const listAll = async (_req, res) => {
   return res.status(200).json(allList);
 };
 
-const listOne = async (req, res, next) => {
+const listOne = (req, res, next) => {
   const { authorization } = req.headers;
 
   /* const user = await db.User.findByPk(req.params.id, { attributes: { exclude: ['password'] } });
