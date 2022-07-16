@@ -77,15 +77,27 @@ const listAll = async (_req, res) => {
   return res.status(200).json(allList);
 };
 
-const listOne = async (req, res) => {
+const listOne = async (req, res, next) => {
   const { authorization } = req.headers;
 
+  /* const user = await db.User.findByPk(req.params.id, { attributes: { exclude: ['password'] } });
+
+  if (!user) {
+    return res.status(404).json({ message: 'User does not exist' });
+  }  */if (!authorization) {
+    return res.status(401).json({ message: 'Token not found' });
+  }
+
+  /* res.status(200).json(user); */
+
+  next();
+};
+
+const listOneFinally = async (req, res) => {
   const user = await db.User.findByPk(req.params.id, { attributes: { exclude: ['password'] } });
 
   if (!user) {
     return res.status(404).json({ message: 'User does not exist' });
-  } if (!authorization) {
-    return res.status(401).json({ message: 'Token not found' });
   }
 
   res.status(200).json(user);
@@ -99,4 +111,5 @@ module.exports = {
   validateTokenRegistration,
   listAll,
   listOne,
+  listOneFinally,
 };
