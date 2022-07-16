@@ -10,5 +10,5 @@ const Category = (Sequilize, DataTypes) => {
 
   return Category;
 };
-//
+
 module.exports = Category

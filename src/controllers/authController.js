@@ -1,6 +1,6 @@
 const db = require('../database/models');
 const generateToken = require('./jwtController');
-const { User } = require('../database/models');
+const { User, Category } = require('../database/models');
 const authService = require('../services/authServices');
 
 const ValidateToken = async (req, res) => {
@@ -120,11 +120,11 @@ const registrationCategories = async (req, res) => {
 };
 
 const listCategories = async (req, res) => {
-  const listC = await db.Category.findAll({ attributes: { exclude: ['createdAt', 'updatedAt'] } });
+  const list = await Category.findAll({ attributes: { exclude: ['createdAt', 'updatedAt'] } });
 
-  console.log('Aqui ========>>>>', listC);
+  console.log(list);
 
-  return res.status(200).json({ message: listC });
+  return res.status(200).json(list);
 };
 
 module.exports = {
