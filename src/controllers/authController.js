@@ -78,11 +78,17 @@ const listAll = async (_req, res) => {
 };
 
 const listOne = async (req, res) => {
-  const { id } = req.params;
+  const { authorization } = req.headers;
 
-  const allList = await db.User.findOne({ where: Number(id) });
+  const user = await db.User.findByPk(req.params.id, { attributes: { exclude: ['password'] } });
 
-  res.status(200).json(allList);
+  if (!user) {
+    return res.status(404).json({ message: 'User does not exist' });
+  } if (!authorization) {
+    return res.status(401).json({ message: 'Token not found' });
+  }
+
+  res.status(200).json(user);
 };
 
 module.exports = {
