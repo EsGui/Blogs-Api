@@ -77,14 +77,14 @@ const listAll = async (_req, res) => {
   return res.status(200).json(allList);
 };
 
-const listOne = (req, res, next) => {
+const listOne = async (req, res, next) => {
   const { authorization } = req.headers;
 
-  /* const user = await db.User.findByPk(req.params.id, { attributes: { exclude: ['password'] } });
+  const user = await db.User.findByPk(req.params.id, { attributes: { exclude: ['password'] } });
 
   if (!user) {
     return res.status(404).json({ message: 'User does not exist' });
-  }  */if (!authorization) {
+  } if (!authorization) {
     return res.status(401).json({ message: 'Token not found' });
   }
 
@@ -96,9 +96,9 @@ const listOne = (req, res, next) => {
 const listOneFinally = async (req, res) => {
   const user = await db.User.findByPk(req.params.id, { attributes: { exclude: ['password'] } });
 
-  if (!user) {
+  /* if (!user) {
     return res.status(404).json({ message: 'User does not exist' });
-  }
+  } */
 
   res.status(200).json(user);
 };
