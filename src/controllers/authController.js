@@ -1,6 +1,6 @@
 const db = require('../database/models');
 const generateToken = require('./jwtController');
-const { User } = require('../database/models');
+const { User, Category } = require('../database/models');
 const authService = require('../services/authServices');
 
 const ValidateToken = async (req, res) => {
@@ -105,6 +105,20 @@ const listOneFinally = async (req, res) => {
   res.status(200).json(user);
 };
 
+const registrationCategories = async (req, res) => {
+  const { name } = req.body;
+
+  if (!name) {
+    return res.status(400).json({ message: '"name" is required' });
+  }
+
+  await db.Category.create({ name });
+
+  const idCategory = await db.Category.findAll();
+
+  return res.status(201).json({ id: idCategory.length, name });
+};
+
 module.exports = {
   ValidateToken,
   validRegistration,
@@ -113,5 +127,6 @@ module.exports = {
   listOne,
   validateTokenRegistration,
   listOneFinally,
+  registrationCategories,
   listAll,
 };

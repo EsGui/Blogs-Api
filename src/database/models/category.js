@@ -5,8 +5,7 @@ const Category = (Sequilize, DataTypes) => {
       primaryKey: true, 
       autoIncrement: true 
     },
-    categoryId: DataTypes.INTEGER,
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
   });
 
   return Category;
