@@ -1,32 +1,31 @@
-const BlogPost = require("./blogPost");
-const Category = require("./category");
-
-const postCategory = (sequilize, DataTypes) => {
-  const postCategory = sequilize.define('PostCategory', {
+const PostCategory = (sequilize, DataTypes) => {
+  const PostCategory = sequilize.define('PostCategory', {
     postId: {
       type: DataTypes.INTEGER,
     },
     categoryId: {
-      type: DataTypes.INTEGER, 
+      type: DataTypes.INTEGER,
     }
+  }, {
+    timestamps: false,
   });
 
-  postCategory.associate = (db) => {
+  PostCategory.associate = (db) => {
     db.Category.belongsToMany(db.BlogPost, {
       as: 'category',
-      through: postCategory,
-      foreignKey: 'id',
-      otherKey: 'id'
+      through: PostCategory,
+      foreignKey: 'postId',
+      otherKey: 'categoryId'
     });
     db.BlogPost.belongsToMany(db.Category, {
       as: 'blogpost',
-      through: postCategory,
-      foreignKey: 'id',
-      otherKey: 'id'
+      through: PostCategory,
+      foreignKey: 'categoryId',
+      otherKey: 'postId'
     })
   };
 
-  return postCategory
+  return PostCategory
 };
 
-module.exports = postCategory
+module.exports = PostCategory

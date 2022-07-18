@@ -23,6 +23,8 @@ app.post('/categories', ValidateToken.validateTokenRegistration,
 
 app.get('/categories', ValidateToken.validateTokenRegistration, ValidateToken.listCategories);
 
+app.post('/post', ValidateToken.validateTokenRegistration, ValidateToken.listPost);
+
 app.use((err, _req, res, _next) => {
   const { name, message } = err;
   switch (name) {

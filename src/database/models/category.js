@@ -6,6 +6,8 @@ const Category = (Sequilize, DataTypes) => {
       autoIncrement: true 
     },
     name: DataTypes.STRING,
+  }, {
+    timestamps: false,
   });
 
   return Category;

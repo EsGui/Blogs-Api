@@ -1,7 +1,9 @@
 const db = require('../database/models');
 const generateToken = require('./jwtController');
-const { User, Category } = require('../database/models');
+const { User, Category, BlogPost } = require('../database/models');
 const authService = require('../services/authServices');
+const postService = require('../services/postServices');
+const { findById } = require('../services/postServices');
 
 const ValidateToken = async (req, res) => {
   const { email, password } = req.body;
@@ -39,12 +41,6 @@ const validRegistrationEmail = async (req, res, next) => {
   const { email } = req.body;
 
   const pegaAll = await User.findAll();
-
-  /* pegaAll.forEach((obj) => {
-    if (obj.email === email) {
-      res.status(409).json({ message: 'User already registered' });
-    }
-  }); */
 
   for (let index = 0; index < pegaAll.length; index += 1) {
     if (pegaAll[index].email === email) {
@@ -90,17 +86,11 @@ const listOne = async (req, res, next) => {
     return res.status(401).json({ message: 'Token not found' });
   }
 
-  /* res.status(200).json(user); */
-
   next();
 };
 
 const listOneFinally = async (req, res) => {
   const user = await db.User.findByPk(req.params.id, { attributes: { exclude: ['password'] } });
-
-  /* if (!user) {
-    return res.status(404).json({ message: 'User does not exist' });
-  } */
 
   res.status(200).json(user);
 };
@@ -127,6 +117,41 @@ const listCategories = async (req, res) => {
   return res.status(200).json(list);
 };
 
+const listPost = async (req, res) => {
+  const { authorization } = req.headers;
+  const { title, content, categoryIds } = req.body;
+
+  const { data: email } = authService.authToken(authorization);
+
+  const listCategory = await Category
+    .findAll({ attributes: { exclude: ['createdAt', 'updatedAt'] } });
+
+  const v = postService.fieldsfilled(title, content, categoryIds);
+
+  if (v) return res.status(400).json({ message: 'Some required fields are missing' });
+
+  const ExistCategory = postService.categoryExist(categoryIds, listCategory);
+
+  if (!ExistCategory) return res.status(400).json({ message: '"categoryIds" not found' });
+
+  const allPost = await BlogPost.findAll();
+
+  const idUser = await User.findAll({ where: { email: email.email } });
+
+  await postService.createBlogPost(allPost.length + 1, idUser[0].id, title, content);
+
+  const idPost = await BlogPost.findOne({ where: { id: allPost.length + 1 } });
+
+  const createPost = categoryIds
+    .reduce((inicio, fim) => inicio.concat({ categoriesId: fim, postId: idPost.id }), []);
+
+  await postService.createPostCategory(createPost);
+
+  const listPostCategory = await findById(allPost.length + 1);
+
+  return res.status(201).json(listPostCategory[0]);
+};
+
 module.exports = {
   ValidateToken,
   validRegistration,
@@ -138,4 +163,5 @@ module.exports = {
   listCategories,
   registrationCategories,
   listAll,
+  listPost,
 };

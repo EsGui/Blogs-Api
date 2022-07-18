@@ -4,7 +4,6 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.createTable('PostCategories', {
       postId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
@@ -15,7 +14,6 @@ module.exports = {
         }
       },
       categoryId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
