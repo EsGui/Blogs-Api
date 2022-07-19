@@ -4,7 +4,7 @@ const { User } = require('../database/models');
 const userServices = {
   validUserData: (displayName, email, password) => {
     const { displayNameC, emailC, passwordC } = userConditions
-      .conditions(displayName, email, password);
+      .conditionsAll(displayName, email, password);
 
     if (displayNameC) {
       const error = new Error('"displayName" length must be at least 8 characters long');
@@ -35,6 +35,31 @@ const userServices = {
         throw error;
       }
     });
+  },
+
+  validToken: (token) => {
+    if (!token) {
+      const error = new Error('Token not found');
+      error.name = 'UnauthorizedError';
+      throw error;
+    }
+  },
+
+  validUserSpecific: async (id, authorization) => {
+    const user = await User
+      .findByPk(id, { attributes: { exclude: ['password'] } });
+
+    if (!user) {
+      const error = new Error('User does not exist');
+      error.name = 'NotFoundError';
+      throw error;
+    } if (!authorization) {
+      const error = new Error('Token not found');
+      error.name = 'UnauthorizedError';
+      throw error;
+    }
+
+    return user;
   },
 };
 

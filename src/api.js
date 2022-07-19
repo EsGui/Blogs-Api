@@ -2,7 +2,9 @@ const express = require('express');
 require('express-async-errors');
 
 const ValidateToken = require('./controllers/authController');
+const categoryController = require('./controllers/categoryControllers');
 const loginController = require('./controllers/loginController');
+const postControllers = require('./controllers/postControllers');
 const userController = require('./controllers/userController');
 
 // ...
@@ -12,29 +14,12 @@ const app = express();
 app.use(express.json());
 
 app.post('/login', loginController.loginUser);
-
-app.post('/user', userController.validData);
-
-app.get('/user', 
-  ValidateToken.validateTokenRegistration, 
-  ValidateToken.listAll);
-
-app.get('/user/:id', 
-  ValidateToken.validateTokenRegistration, 
-  ValidateToken.listOne, 
-  ValidateToken.listOneFinally);
-
-app.post('/categories', 
-  ValidateToken.validateTokenRegistration, 
-  ValidateToken.registrationCategories);
-
-app.get('/categories', 
-  ValidateToken.validateTokenRegistration, 
-  ValidateToken.listCategories);
-
-app.post('/post', 
-  ValidateToken.validateTokenRegistration, 
-  ValidateToken.listPost);
+app.post('/user', userController.validDataUser);
+app.get('/user', userController.listAllUser);
+app.get('/user/:id', userController.userSpecific);
+app.post('/categories', categoryController.listCategorySpecific);
+app.get('/categories', categoryController.listAllCategory);
+app.post('/post', postControllers.listPost);
 
 app.use((err, _req, res, _next) => {
   const { name, message } = err;
