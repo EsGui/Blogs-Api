@@ -1,7 +1,6 @@
 const express = require('express');
 require('express-async-errors');
 
-const ValidateToken = require('./controllers/authController');
 const categoryController = require('./controllers/categoryControllers');
 const loginController = require('./controllers/loginController');
 const postControllers = require('./controllers/postControllers');
