@@ -21,6 +21,7 @@ app.get('/categories', categoryController.listAllCategory);
 app.post('/post', postControllers.listPost);
 app.get('/post', postControllers.listAllInformation);
 app.get('/post/:id', postControllers.listSpecific);
+app.put('/post/:id', postControllers.changeModelBlog);
 
 app.use((err, _req, res, _next) => {
   const { name, message } = err;

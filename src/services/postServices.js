@@ -114,8 +114,52 @@ const postService = {
         as: 'categories' }],
         attributes: { exclude: ['createdAt, updatedAt'] },
       });
-      
+
     return listBlogPost;
+  },
+
+  conditionsBlog: async (email, title, content, id) => {
+    const listBlogPost = await BlogPost
+      .findAll({ 
+        where: { id },
+        attributes: { exclude: ['createdAt, updatedAt'] },
+        include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories' }] });
+    
+    const verify = listBlogPost[0].user.email === email;
+
+    if (!verify) {
+      const error = new Error('Unauthorized user');
+      error.name = 'UnauthorizedError';
+      throw error;
+    }
+
+    if (!title || !content) {
+      const error = new Error('Some required fields are missing');
+      error.name = 'ValidationError';
+      throw error;
+    }
+
+    return listBlogPost;
+  },
+
+  editBlog: async (id, _title, _content) => {
+    /* const [updated] = await BlogPost
+      .update(
+        { title, content },
+        { where: { id } },
+      ); */
+
+      const listBlogPost = await BlogPost
+      .findAll({ 
+        where: { id },
+        attributes: { exclude: ['createdAt, updatedAt'] },
+        include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories' }] });
+
+      console.log(listBlogPost[0]);
+
+    /* return updated; */
   },
 };
 

@@ -13,7 +13,7 @@ const userController = {
 
     await User.create(req.body);
 
-    const token = generateToken.createToken();
+    const token = generateToken.createToken(req.body);
 
     return res.status(201).json({ token });
   },

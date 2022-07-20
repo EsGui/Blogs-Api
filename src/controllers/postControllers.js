@@ -43,6 +43,24 @@ const postControllers = {
 
     return res.status(200).json(resultModel[0]);
   },
+
+  changeModelBlog: async (req, res) => {
+    const { id } = req.params;
+    const { authorization } = req.headers;
+    const { title, content } = req.body;
+
+    userServices.validToken(authorization);
+
+    authService.authToken(authorization);
+
+    const { data: { email } } = authService.authToken(authorization);
+
+    const result = await postService.conditionsBlog(email, title, content, id);
+
+    await postService.editBlog(id, title, content);
+
+    return res.status(200).json(result[0]);
+  },
 };
 
 module.exports = postControllers;
