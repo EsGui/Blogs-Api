@@ -74,7 +74,7 @@ const postService = {
 
     const listPostCategory = await BlogPost
       .findAll({ where: { id: allPost.length + 1 }, 
-        include: [{ model: Category, as: 'blogpost' }] });
+        include: [{ model: Category, as: 'categories' }] });
 
     return listPostCategory;
   },
@@ -91,6 +91,30 @@ const postService = {
         as: 'categories' }],
         attributes: { exclude: ['createdAt, updatedAt'] },
       });
+    return listBlogPost;
+  },
+
+  listModelSpecific: async (id) => {
+    const verifyExist = await BlogPost.findAll();
+
+    const conditionExist = verifyExist.some((element) => Number(element.id) === Number(id));
+
+    if (!conditionExist) {
+      const error = new Error('Post does not exist');
+      error.name = 'NotFoundError';
+      throw error;
+    }
+
+    const listBlogPost = await BlogPost
+      .findAll({ 
+        where: { id }, 
+        include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { 
+        model: Category, 
+        as: 'categories' }],
+        attributes: { exclude: ['createdAt, updatedAt'] },
+      });
+      
     return listBlogPost;
   },
 };

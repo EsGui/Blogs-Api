@@ -30,6 +30,19 @@ const postControllers = {
 
     res.status(200).json(allInformation);
   },
+
+  listSpecific: async (req, res) => {
+    const { id } = req.params;
+    const { authorization } = req.headers;
+
+    userServices.validToken(authorization);
+
+    authService.authToken(authorization);
+
+    const resultModel = await postService.listModelSpecific(id);
+
+    return res.status(200).json(resultModel[0]);
+  },
 };
 
 module.exports = postControllers;
