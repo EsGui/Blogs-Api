@@ -1,6 +1,7 @@
 const authService = require('../services/authServices');
 const postService = require('../services/postServices');
 const userServices = require('../services/userServices');
+const { BlogPost, Category, User } = require('../database/models');
 
 const postControllers = {
   listPost: async (req, res) => {
@@ -55,11 +56,18 @@ const postControllers = {
 
     const { data: { email } } = authService.authToken(authorization);
 
-    const result = await postService.conditionsBlog(email, title, content, id);
+    await postService.conditionsBlog(email, title, content, id);
 
     await postService.editBlog(id, title, content);
 
-    return res.status(200).json(result[0]);
+    const listBlogPost = await BlogPost
+      .findAll({ 
+        where: { id },
+        attributes: { exclude: ['createdAt, updatedAt'] },
+        include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories' }] });
+
+    return res.status(200).json(listBlogPost[0]);
   },
 };
 

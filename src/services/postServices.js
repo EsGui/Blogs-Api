@@ -143,23 +143,16 @@ const postService = {
     return listBlogPost;
   },
 
-  editBlog: async (id, _title, _content) => {
-    /* const [updated] = await BlogPost
-      .update(
-        { title, content },
-        { where: { id } },
-      ); */
+  editBlog: async (id, title, content) => {
+    const [updated] = await BlogPost.update(
+        { 
+          title, 
+          content,
+        },
+         { where: { id } },
+      );
 
-      const listBlogPost = await BlogPost
-      .findAll({ 
-        where: { id },
-        attributes: { exclude: ['createdAt, updatedAt'] },
-        include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } },
-      { model: Category, as: 'categories' }] });
-
-      console.log(listBlogPost[0]);
-
-    /* return updated; */
+    return updated;
   },
 };
 
