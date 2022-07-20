@@ -78,6 +78,21 @@ const postService = {
 
     return listPostCategory;
   },
+
+  listBlogPostAllInformation: async () => {
+    const listBlogPost = await BlogPost
+      .findAll({
+        include: [
+        { model: User, 
+        as: 'user', 
+        attributes: { exclude: ['password'] } },
+        { 
+        model: Category, 
+        as: 'categories' }],
+        attributes: { exclude: ['createdAt, updatedAt'] },
+      });
+    return listBlogPost;
+  },
 };
 
 module.exports = postService;

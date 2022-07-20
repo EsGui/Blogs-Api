@@ -12,13 +12,13 @@ const PostCategory = (sequilize, DataTypes) => {
 
   PostCategory.associate = (db) => {
     db.Category.belongsToMany(db.BlogPost, {
-      as: 'category',
+      as: 'blogpost',
       through: PostCategory,
       foreignKey: 'postId',
       otherKey: 'categoryId'
     });
     db.BlogPost.belongsToMany(db.Category, {
-      as: 'blogpost',
+      as: 'categories',
       through: PostCategory,
       foreignKey: 'categoryId',
       otherKey: 'postId'

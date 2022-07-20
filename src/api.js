@@ -19,6 +19,7 @@ app.get('/user/:id', userController.userSpecific);
 app.post('/categories', categoryController.listCategorySpecific);
 app.get('/categories', categoryController.listAllCategory);
 app.post('/post', postControllers.listPost);
+app.get('/post', postControllers.listAllInformation);
 
 app.use((err, _req, res, _next) => {
   const { name, message } = err;

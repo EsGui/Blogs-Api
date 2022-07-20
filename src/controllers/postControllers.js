@@ -18,6 +18,18 @@ const postControllers = {
 
     return res.status(201).json(register[0]);
   },
+
+  listAllInformation: async (req, res) => {
+    const { authorization } = req.headers;
+
+    userServices.validToken(authorization);
+
+    authService.authToken(authorization);
+
+    const allInformation = await postService.listBlogPostAllInformation();
+
+    res.status(200).json(allInformation);
+  },
 };
 
 module.exports = postControllers;
